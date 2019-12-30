@@ -106,8 +106,9 @@ public class EveryLiveData<T> {
         LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
         ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);
         if (existing != null && !existing.isAttachedTo(owner)) {
-            throw new IllegalArgumentException("Cannot add the same observer"
-                    + " with different lifecycles");
+/*            throw new IllegalArgumentException("Cannot add the same observer"
+                    + " with different lifecycles");*/
+            return;
         }
         if (existing != null) {
             return;
@@ -122,8 +123,9 @@ public class EveryLiveData<T> {
         AlwaysActiveObserver wrapper = new AlwaysActiveObserver(observer);
         ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);
         if (existing instanceof EveryLiveData.LifecycleBoundObserver) {
-            throw new IllegalArgumentException("Cannot add the same observer"
-                    + " with different lifecycles");
+         /*   throw new IllegalArgumentException("Cannot add the same observer"
+                    + " with different lifecycles");*/
+            return;
         }
         if (existing != null) {
             return;
@@ -137,8 +139,9 @@ public class EveryLiveData<T> {
         AlwaysActiveObserver wrapper = new AlwaysActiveObserver(observer);
         ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);
         if (existing instanceof EveryLiveData.LifecycleBoundObserver) {
-            throw new IllegalArgumentException("Cannot add the same observer"
-                    + " with different lifecycles");
+     /*       throw new IllegalArgumentException("Cannot add the same observer"
+                    + " with different lifecycles");*/
+            return;
         }
         if (existing != null) {
             return;
@@ -156,8 +159,10 @@ public class EveryLiveData<T> {
         LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
         ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);
         if (existing != null && !existing.isAttachedTo(owner)) {
+    /*
             throw new IllegalArgumentException("Cannot add the same observer"
-                    + " with different lifecycles");
+                    + " with different lifecycles");*/
+            return;
         }
         if (existing != null) {
             return;
@@ -278,7 +283,7 @@ public class EveryLiveData<T> {
     }
 
     public boolean hasSticky() {
-        return mStickNum>0;
+        return mStickNum > 0;
     }
 
     private abstract class ObserverWrapper {

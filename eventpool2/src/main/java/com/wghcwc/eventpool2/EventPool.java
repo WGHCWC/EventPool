@@ -200,6 +200,5 @@ public class EventPool {
             everyLiveData.removeObservers(owner);
         }
 
-
     }
 }
