@@ -197,7 +197,7 @@ public class EventPool {
 
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         void onDestroy(LifecycleOwner owner) {
-//            everyLiveData.removeObservers(owner);
+            everyLiveData.removeObservers(owner);
         }
 
 
