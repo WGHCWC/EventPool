@@ -2,27 +2,28 @@ package com.wghcwc.eventpool2;
 
 
 import android.annotation.SuppressLint;
-import android.arch.core.executor.ArchTaskExecutor;
-import android.arch.lifecycle.GenericLifecycleObserver;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
+
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.arch.core.executor.ArchTaskExecutor;
+import androidx.lifecycle.GenericLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
 import java.util.Iterator;
 import java.util.Map;
 
-import static android.arch.lifecycle.Lifecycle.State.DESTROYED;
-import static android.arch.lifecycle.Lifecycle.State.STARTED;
+import static androidx.lifecycle.Lifecycle.State.DESTROYED;
+import static androidx.lifecycle.Lifecycle.State.STARTED;
 
 
 /**
  * @author wghcwc
  * @date 18-11-23
- * liveData {@link android.arch.lifecycle.LiveData}
+ * liveData {@link androidx.lifecycle.LiveData}
  */
 public class EveryLiveData<T> {
     private final Object mDataLock = new Object();

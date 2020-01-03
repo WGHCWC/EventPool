@@ -15,11 +15,8 @@
  */
 
 package com.wghcwc.eventpool2;
-
-
-
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
+import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
 
 import java.util.Iterator;
 import java.util.Map;

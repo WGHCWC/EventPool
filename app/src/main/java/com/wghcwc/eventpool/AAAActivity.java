@@ -2,9 +2,7 @@ package com.wghcwc.eventpool;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-
-import com.wghcwc.rtrofitadapter.RxJava2CallAdapterFactory;
+import androidx.annotation.Nullable;
 
 /**
  * @author wghcwc
@@ -14,6 +12,5 @@ public class AAAActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RxJava2CallAdapterFactory.create();
     }
 }
