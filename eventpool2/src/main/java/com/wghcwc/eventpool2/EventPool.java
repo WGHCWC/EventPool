@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public class EventPool {
     private static final String TAG = "EventPool";
-    private static volatile EventPool defaultInstance = new EventPool();
     private static final Map<String, Bridge<?>> bridgeMap = new HashMap<>();
     private static Object object = new Object();
 
@@ -26,7 +25,7 @@ public class EventPool {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Bridge<T> get(@NonNull Class<T> tClass, String tag) {
+    public static <T> Bridge<T> get(@NonNull Class<T> tClass, String tag) {
         String name = tClass.getName() + ":" + tag;
         Bridge<T> tBridge = (Bridge<T>) bridgeMap.get(name);
         if (tBridge == null) {
@@ -37,11 +36,12 @@ public class EventPool {
         return tBridge;
     }
 
+
     public static void clearAll() {
         bridgeMap.clear();
     }
 
-    public <T> Bridge<T> get(@NonNull Class<T> tClass) {
+    public static <T> Bridge<T> get(@NonNull Class<T> tClass) {
         return get(tClass, "");
     }
 
@@ -50,67 +50,85 @@ public class EventPool {
      */
     public static void setValue(String tag, Object o) {
         if (o == null) return;
-        defaultInstance.get(o.getClass(), tag).setObj(o);
+        get(o.getClass(), tag).setObj(o);
     }
 
     public static void setValue(Object o) {
         if (o == null) return;
-        defaultInstance.get(o.getClass()).setObj(o);
+        get(o.getClass()).setObj(o);
     }
 
     public static void postValue(String tag, Object o) {
         if (o == null) return;
-        defaultInstance.get(o.getClass(), tag).postObj(o);
+        get(o.getClass(), tag).postObj(o);
     }
 
     public static void postValue(Object o) {
         if (o == null) return;
-        defaultInstance.get(o.getClass()).postObj(o);
+        get(o.getClass()).postObj(o);
     }
 
     public static <T> Bridge<T> of(@NonNull Class<T> tClass, String tag) {
-        return defaultInstance.get(tClass, tag);
+        return get(tClass, tag);
     }
+
+    public static void remove(@NonNull Class tClass, String tag) {
+        String name = tClass.getName() + ":" + tag;
+        bridgeMap.remove(name);
+    }
+
 
     /**
      * 无tag会导致逻辑不清晰,tag应避免魔法值!!!
      */
     @Deprecated
     public static <T> Bridge<T> of(@NonNull Class<T> tClass) {
-        return defaultInstance.get(tClass);
+        return get(tClass);
     }
 
     /**
      * Obj类型,只关心tag
      */
     public static void callTag(String tag) {
-        defaultInstance.get(Object.class, tag).setValue(object);
+        get(Object.class, tag).setValue(object);
     }
 
     public static void postTag(String tag) {
-        defaultInstance.get(Object.class, tag).postValue(object);
+        get(Object.class, tag).postValue(object);
     }
 
 
     public static Bridge<Object> getTag(String tag) {
-        return defaultInstance.get(Object.class, tag);
+        return get(Object.class, tag);
     }
+
+    public static void removeTag(String tag) {
+        String name = Object.class.getName() + ":" + tag;
+        bridgeMap.remove(name);
+    }
+
 
     /**
      * 整形
      */
 
     public static void callInt(String tag, int value) {
-        defaultInstance.get(Integer.class, tag).setValue(value);
+        get(Integer.class, tag).setValue(value);
     }
 
     public static void postInt(String tag, int value) {
-        defaultInstance.get(Integer.class, tag).postValue(value);
+        get(Integer.class, tag).postValue(value);
     }
 
     public static Bridge<Integer> getInt(String tag) {
-        return defaultInstance.get(Integer.class, tag);
+        return get(Integer.class, tag);
     }
+
+    public static void removeInt(String tag) {
+        String name = Integer.class.getName() + ":" + tag;
+        bridgeMap.remove(name);
+    }
+
 
     /**
      * String
@@ -118,35 +136,45 @@ public class EventPool {
 
     public static void callStr(String tag, String value) {
         if (value == null) return;
-        defaultInstance.get(String.class, tag).setValue(value);
+        get(String.class, tag).setValue(value);
     }
 
     public static void postStr(String tag, String value) {
         if (value == null) return;
-        defaultInstance.get(String.class, tag).postValue(value);
+        get(String.class, tag).postValue(value);
     }
 
     public static Bridge<String> getStr(String tag) {
-        return defaultInstance.get(String.class, tag);
+        return get(String.class, tag);
+    }
+
+    public static void removeStr(String tag) {
+        String name = String.class.getName() + ":" + tag;
+        bridgeMap.remove(name);
     }
 
     /**
      * boolean
      */
     public static void callBool(String tag, boolean value) {
-        defaultInstance.get(Boolean.class, tag).setValue(value);
+        get(Boolean.class, tag).setValue(value);
     }
 
     public static void postBool(String tag, boolean value) {
-        defaultInstance.get(Boolean.class, tag).postValue(value);
+        get(Boolean.class, tag).postValue(value);
     }
 
     public static Bridge<Boolean> getBool(String tag) {
-        return defaultInstance.get(Boolean.class, tag);
+        return get(Boolean.class, tag);
+    }
+
+    public static void removeBool(String tag) {
+        String name = Boolean.class.getName() + ":" + tag;
+        bridgeMap.remove(name);
     }
 
 
-    public class Bridge<T> implements LifecycleObserver {
+    public static class Bridge<T> implements LifecycleObserver {
         private EveryLiveData<T> everyLiveData;
         private String key;
         private Map<LifecycleOwner, Observer<T>> observers;
@@ -184,6 +212,7 @@ public class EventPool {
             everyLiveData.removeObservers(owner);
         }
 
+
         public void setValue(T t) {
             everyLiveData.setValue(t);
         }
@@ -200,7 +229,6 @@ public class EventPool {
         @SuppressWarnings("unchecked")
         public void postObj(Object o) {
             everyLiveData.postValue((T) o);
-
         }
 
 

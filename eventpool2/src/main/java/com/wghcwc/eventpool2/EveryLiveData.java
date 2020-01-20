@@ -1,8 +1,6 @@
 package com.wghcwc.eventpool2;
 
 
-
-
 import android.annotation.SuppressLint;
 
 import androidx.annotation.MainThread;
