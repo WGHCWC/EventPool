@@ -1,4 +1,5 @@
 package com.wghcwc.eventpool2;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -36,7 +37,7 @@ public class EventPool {
         return tBridge;
     }
 
-    public static void clearAll(){
+    public static void clearAll() {
         bridgeMap.clear();
     }
 
@@ -171,6 +172,18 @@ public class EventPool {
             everyLiveData.unSticky(owner, observer);
         }
 
+        public EveryLiveData<T> getEveryLiveData() {
+            return everyLiveData;
+        }
+
+        public void removeObserver(Observer<T> observer) {
+            everyLiveData.removeObserver(observer);
+        }
+
+        public void removeObservers(LifecycleOwner owner) {
+            everyLiveData.removeObservers(owner);
+        }
+
         public void setValue(T t) {
             everyLiveData.setValue(t);
         }
@@ -189,6 +202,7 @@ public class EventPool {
             everyLiveData.postValue((T) o);
 
         }
+
 
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         void onDestroy(LifecycleOwner owner) {
